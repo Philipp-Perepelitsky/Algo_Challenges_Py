@@ -1,0 +1,163 @@
+## Challenges: https://www.hackerrank.com/challenges/minimum-absolute-difference-in-an-array/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=greedy-algorithms
+
+## Solution: 
+
+# Complete the minimumAbsoluteDifference function below.
+def minimumAbsoluteDifference(arr):
+    a = arr
+    a.sort()
+    m = abs(a[0] - a[1])
+    i = 1
+    while i < len(a) - 1:
+        c = abs(a[i] - a[i+1])
+        if c < m:
+            m = c
+        i += 1
+    return m
+
+## Challenges: https://www.hackerrank.com/challenges/luck-balance/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=greedy-algorithms
+
+## Solution:
+
+# Complete the luckBalance function below.
+def luckBalance(k, contests):
+    c = contests
+    t = 0
+    im = []
+    i = 0
+    while i < len(c):
+        ti = c[i][1]
+        if ti == 0:
+            t += c[i][0]
+        if ti == 1:
+            im.append(c[i][0])
+        i += 1
+    im.sort()
+    print(t)
+    print(im)
+    j = 0
+    m = len(im)
+    if k > m or k == m:
+        while j < m:
+            t += im[j]
+            j += 1
+    else:
+        while j < m - k:
+            t -= im[j]
+            j += 1
+        while j < m:
+            t += im [j]
+            j += 1
+    return t
+
+## Challenges: https://www.hackerrank.com/challenges/greedy-florist/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=greedy-algorithms
+
+## Solution:
+
+# Complete the getMinimumCost function below.
+def getMinimumCost(k, c):
+    c.sort()
+    f = 1
+    m = 0
+    i = len(c) - 1
+    while i > -1:
+        j = 0
+        while j < k:
+            if i < 0:
+                break
+            m += f*c[i]
+            i -= 1
+            j += 1
+        f += 1
+    return m
+
+## Challenges: https://www.hackerrank.com/challenges/angry-children/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=greedy-algorithms
+
+## Solution:
+
+# Complete the maxMin function below.
+def maxMin(k, arr):
+    a = arr
+    a.sort()
+    m = a[k-1] - a[0]
+    i = 1
+    while i < len(a) - k + 1:
+        d = a[i + k - 1] - a[i]
+        if d < m:
+            m = d
+        i += 1
+    return m
+
+## Challenges: https://www.hackerrank.com/challenges/reverse-shuffle-merge/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=greedy-algorithms
+
+## Solution:
+
+# Complete the reverseShuffleMerge function below.
+def reverseShuffleMerge(s):
+    l = list(s)
+    t = 26*[0]
+    f = [26*[0] for _ in range(len(l)+1)]
+    p = [[] for _ in range(26)]
+    i = len(l) - 1
+    while i > -1:
+        #print(i)
+        c = l[i]
+        o = ord(c) - 97
+        t[o] += 1
+        j = 0
+        while j < 26:
+            if j == o:
+                f[i][j] = f[i+1][j] + 1
+            else:
+                f[i][j] = f[i+1][j]
+            j += 1
+        #print(f[3])
+        p[o].append(i)
+        i -= 1
+    #print('t: ',t)
+    #print('p: ',p)
+    h = ''
+    a = 26 * [0]
+    r = 26 * [0]
+    k = 0
+    while k < len(l)/2:
+        #print('k: ',k)
+        #print('a: ',a)
+        #print('r: ',r)
+        m = -1
+        j = 0
+        while j < 26:
+            if a[j] == t[j]/2 or t[j] == 0:
+                j += 1
+                continue
+            i = p[j][t[j]/2 + a[j]]
+            #print(j)
+            #print(i)
+            if i > m:
+                m = i
+            j += 1
+        #print('m: ',m)
+        j = 0
+        while j < 26:
+            if a[j] == t[j]/2 or t[j] == 0:
+                j += 1
+                continue
+            i = p[j][r[j] + a[j]]
+            if i > m or i == m:
+                m = i
+                break
+            j += 1
+        #print('m: ',m)
+        #print('f: ',f[m])
+        c = l[m]
+        #print(c)
+        o = ord(c) - 97
+        a[o] += 1
+        j = 0
+        while j < 26:
+            r[j] = f[m][j] - a[j]
+            j += 1
+        h = h + c
+        k += 1
+    return h
+
