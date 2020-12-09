@@ -1,0 +1,177 @@
+## Challenge: https://www.hackerrank.com/challenges/ctci-ransom-note/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=dictionaries-hashmaps
+
+## Solution: 
+
+# Complete the checkMagazine function below.
+def checkMagazine(magazine, note):
+    m = magazine
+    n = note
+    dm = {}
+    dn = {}
+    i = 0
+    while i < len(m):
+        if m[i] in dm:
+            dm[m[i]] += 1
+        else:
+            dm[m[i]] = 1
+        i += 1
+    j = 0
+    while j < len(n):
+        if n[j] in dn:
+            dn[n[j]] += 1
+        else:
+            dn[n[j]] = 1
+        j += 1
+    x = 0
+    for w in dn.keys():
+        if dm.has_key(w) == 0:
+            x = 1
+            break
+        else: 
+            if dn[w] > dm[w]:
+                x = 1
+                break
+    if x == 0:
+        print('Yes')
+    else:
+        print('No')
+
+## Challenge: https://www.hackerrank.com/challenges/two-strings/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=dictionaries-hashmaps
+
+## Solution:
+
+# Complete the twoStrings function below.
+def twoStrings(s1, s2):
+    l1 = list(s1)
+    l2 = list(s2)
+    d1 = {}
+    d2 = {}
+    i = 0
+    while i < len(l1):
+        if d1.has_key(l1[i]) == 0:
+            d1[l1[i]] = 1
+        i += 1
+    i = 0
+    while i < len(l2):
+        if d2.has_key(l2[i]) == 0:
+            d2[l2[i]] = 1
+        i += 1
+    x = 0
+    for c in d2.keys():
+        if c in d1:
+            x = 1
+            break
+    if x == 0:
+        s ='NO'
+    else:
+        s='YES'
+    return s
+
+
+## Challenge: https://www.hackerrank.com/challenges/sherlock-and-anagrams/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=dictionaries-hashmaps
+
+## Solution:
+
+# Complete the sherlockAndAnagrams function below.
+def sherlockAndAnagrams(s):
+    l = list(s)
+    t = 0
+    d = {}
+    fd = []
+    i = 0
+    while i < len(l):
+        nd = []
+        c = l[i]
+        c = ord(c) - 97
+        o = 26*[0]
+        o[c] = 1
+        nd.append(o)
+        o = tuple(o)
+        if o in d:
+            t += d[o]
+            d[o] += 1
+        else:
+            d[o] = 1
+        for a in fd:
+            a[c] += 1
+            nd.append(a)
+            a = tuple(a)
+            if a in d:
+                t += d[a]
+                d[a] += 1
+            else:
+                d[a] = 1
+        fd = nd
+        i += 1
+    return t
+            
+
+## Challenge: https://www.hackerrank.com/challenges/count-triplets-1/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=dictionaries-hashmaps
+
+## Solution:
+
+# Complete the countTriplets function below.
+def countTriplets(arr, r):
+    a = arr
+    m1 = {}
+    m2 = {}
+    t = 0
+    i = 0
+    while i < len(a):
+        d = a[i]
+        if d%r == 0:
+            f = d/r
+            if f in m2:
+                t += m2[f]
+            if f in m1:
+                if d in m2:
+                    m2[d] += m1[f]
+                else:
+                    m2[d] = m1[f]
+        if d in m1:
+            m1[d] += 1
+        else:
+            m1[d] = 1
+        i += 1
+    return t
+
+## Challenge: https://www.hackerrank.com/challenges/frequency-queries/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=dictionaries-hashmaps
+
+## Solution:
+
+# Complete the freqQuery function below.
+def freqQuery(queries):
+    q = queries
+    d = {}
+    f = {}
+    a = []
+    i = 0
+    while i < len(q):
+        c = q[i][0]
+        x = q[i][1]
+        if c == 1:
+            if x in d:
+                f[d[x]] -= 1
+                d[x] += 1
+            else:
+                d[x] = 1
+            if d[x] in f:
+                f[d[x]] += 1
+            else:
+                f[d[x]] = 1
+            
+        if c == 2:
+            if ((x in d) and (d[x]>0)):
+                f[d[x]] -= 1
+                d[x] = d[x]-1
+                if d[x] in f:
+                    f[d[x]] += 1
+                else: 
+                    f[d[x]] = 1
+        if c == 3:
+            if (x in f and f[x]>0):
+                a.append(1)
+            else:
+                a.append(0)
+        i += 1
+    return a
