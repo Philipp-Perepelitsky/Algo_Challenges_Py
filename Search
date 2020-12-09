@@ -1,0 +1,373 @@
+## Challenge: https://www.hackerrank.com/challenges/ctci-ice-cream-parlor/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=search
+
+## Solution:
+
+# Complete the whatFlavors function below.
+def whatFlavors(cost, money):
+    c = cost
+    m = money
+    d = []
+    i = 0
+    while i < len(c):
+        d.append(c[i])
+        i += 1
+    d.append(m/2.0)
+    d.sort()
+    i = 0
+    while i < len(d):
+        if d[i] == m/2.0:
+            p = i
+            break
+        i += 1
+    if d[p + 1] == m/2.0:
+        s = p + 1
+    else:
+        s = p
+    j = s - 1
+    k = s + 1
+    #print(d)
+    #print(s)
+    while j > -1 and k < len(d):
+        l = d[j]
+        h = d[k]
+        if l + h == m:
+            break
+        if l + h < m:
+            k += 1
+        if l + h > m:
+            j -= 1
+    #print(l,h)
+    i = 0
+    li = -1
+    while i < len(c):
+        if c[i] == l and li == -1:
+            li = i
+        if c[i] == h and li != i:
+            hi = i
+        i += 1
+    #print(li,hi)
+    if li < hi:
+        f = li
+        s = hi
+    else: 
+        f = hi
+        s = li
+    print f+1,s+1
+
+## Challenge: https://www.hackerrank.com/challenges/swap-nodes-algo/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=search
+
+## Solution:
+
+# Complete the swapNodes function below.
+#
+def swapNodes(indexes, queries):
+    ind = indexes
+    q = queries
+    n = len(ind)
+    s = [3*[0] for _ in range(n)]
+    k = 0
+    d = []
+    cd = []
+    cn = 1
+    j = 0
+    nn = 0
+    i = 0
+    while i < n:
+        cd.append(i+1)
+        l,r = ind[i][0],ind[i][1]
+        s[i][0] = l
+        s[i][1] = r
+        if l != -1:
+            s[l-1][2] = i + 1
+            nn += 1
+        if r != -1:
+            s[r-1][2] = i + 1
+            nn += 1
+        j += 1
+        i += 1
+        if cn == j:
+            d.append(cd)
+            cn = nn
+            j = 0
+            nn = 0
+            cd = []
+    #print(s)
+    tv = []
+    i = 0
+    while i < len(q):
+        vl = []
+        k = q[i]
+        j = 1
+        while j < len(d)/k + 1:
+            cd = d[k*j - 1]
+            p = 0
+            while p < len(cd):
+                v = cd[p]
+                l = s[v-1][0]
+                r = s[v-1][1]
+                s[v-1][0] = r
+                s[v-1][1] = l
+                p += 1
+            j += 1
+        #print(s)
+        li = n*[0]
+        ri = n*[0]
+        v = 1
+        while len(vl) < n:
+            #print(v)
+            l = s[v-1][0]
+            r = s[v-1][1]
+            p = s[v-1][2]
+            if li[v-1] == 0:
+                if l == -1:
+                    vl.append(v)
+                    li[v-1] = 1
+                else:
+                    li[v-1] = 1 
+                    v = l
+            else:
+                if ri[v-1] == 0:
+                    if r == -1:
+                        ri[v-1] = 1
+                    else:
+                        ri[v-1] = 1
+                        v = r
+                else:
+                    if v == s[p-1][0]:
+                        vl.append(p)
+                    v = p 
+            #print(vl)
+        tv.append(vl)
+        i += 1
+    return tv
+
+## Challenge: https://www.hackerrank.com/challenges/pairs/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=search
+
+## Solution:
+
+# Complete the pairs function below.
+def pairs(k, arr):
+    a = arr
+    a.sort()
+    b = []
+    i = 0
+    while i < len(a):
+        b.append(a[i] + k)
+        i += 1
+    print(a)
+    print(b)
+    c = 0
+    j = 0
+    i = 0
+    t = b[0]
+    while i < len(a) and j < len(b):
+        print('a: ',a[i])
+        print('t: ',t)
+        if a[i] < t:
+            i += 1
+            continue
+        if a[i] == t:
+            c += 1
+            j += 1
+            t = b[j]
+            i += 1
+            continue
+        if a[i] > t:
+            j += 1
+            t = b[j]
+        print(c)
+    return c
+
+## Challenge: https://www.hackerrank.com/challenges/triple-sum/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=search
+
+## Solution:
+
+# Complete the triplets function below.
+def triplets(a, b, c):
+    a.sort(reverse=True)
+    b.sort(reverse=True)
+    c.sort(reverse=True)
+    au = [a[0]]
+    bu = [b[0]]
+    cu = [c[0]]
+    i = 1
+    while i < len(a):
+        if a[i] != a[i-1]:
+            au.append(a[i])
+        i+=1
+    i = 1
+    while i < len(b):
+        if b[i] != b[i-1]:
+            bu.append(b[i])
+        i += 1
+    i = 1
+    while i < len(c):
+        if c[i] != c[i-1]:
+            cu.append(c[i])
+        i += 1
+    ba = []
+    j = 0
+    i = 0
+    while j < len(bu) and i < len(au):
+        t = bu[j]
+        if au[i] > t:
+            i += 1
+        else: 
+            ba.append(len(au) - i)
+            j += 1
+    bc = []
+    j = 0
+    i = 0
+    while j < len(bu) and i < len(cu):
+        t = bu[j]
+        if cu[i] > t:
+            i += 1
+        else: 
+            bc.append(len(cu) - i)
+            j += 1
+    s = 0
+    j = 0
+    while j < len(ba) and j < len(bc):
+        s = s + ba[j] * bc[j]
+        j += 1
+    return s
+
+## Challenge: https://www.hackerrank.com/challenges/minimum-time-required/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=search
+
+## Solution:
+
+# Complete the minTime function below.
+def minTime(machines, goal):
+    m = machines
+    g = goal
+    mt = m[0]
+    c = 1
+    i = 1
+    while i < len(m):
+        if m[i] == mt:
+            c += 1
+        if m[i] < mt:
+            mt = m[i]
+            c = 1
+        i += 1
+    print(mt)
+    print(c)
+    r = mt*(g/c + 1)
+    l = 1
+    k = 0
+    while k == 0:
+        print(l)
+        print(r)
+        s = (r-l)/2 + l
+        print(s)
+        t = 0
+        i = 0
+        while i < len(m):
+            t += s/m[i]
+            i += 1
+        print(t)
+        if t < g:
+            l = s + 1
+            continue
+        if s == 1:
+            k = 1
+        if s > 1:    
+            a = 0
+            i = 0
+            while i < len(m):
+                a += (s-1)/m[i]
+                i += 1
+            if a < g:
+                k = 1
+            else:
+                r = s - 1
+    return s
+
+## Challenge: https://www.hackerrank.com/challenges/maximum-subarray-sum/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=search
+
+## Solution:
+
+# Complete the maximumSum function below.
+def maximumSum(a, m):
+    sl = [(m,0)]
+    s = 0
+    i = 0
+    while i < len(a):
+        s += a[i]
+        s = s%m
+        sl.append((s,i+1))
+        i += 1
+    sl.sort(key = lambda x: (x[0],x[1]))
+    mi = m
+    i = 0
+    while i < len(sl)-1:
+        d = sl[i+1][0] - sl[i][0]
+        if d < mi and sl[i+1][1] < sl[i][1]:
+            mi = d
+        i += 1
+    ma = m - mi
+    return ma
+
+## Challenge: https://www.hackerrank.com/challenges/making-candies/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=search
+
+## Solution:
+
+# Complete the minimumPasses function below.
+def minimumPasses(m, w, p, n):
+    if n < m*w or n == m*w:
+        mg = 1
+    else:
+        if n%(m*w) == 0:
+            mg = n/(m*w)
+        else:
+            mg = n/(m*w) + 1
+    if p > n or p == n:
+        return mg
+    N = m*w
+    mi = min(m,w)
+    ma = max(m,w)
+    j = 1
+    while n > N:
+        #print('N: ', N)
+        #print('j: ', j)
+        #print('mg: ',mg)
+        s = N/p
+        if s == 0:
+            a = mi*ma
+            if (p - N)%a == 0:
+                #print(a)
+                j += (p-N)/a
+                N = p
+            else: 
+                j += (p-N)/a + 1
+                N += a*((p-N)/a+1)
+            continue
+        c = p*(N/p)
+        N -= c
+        #print('s: ', s)
+        #print('N: ', N)
+        if s < (ma - mi) or s == (ma - mi):
+            mi += s
+        else:
+            d = ma - mi
+            mi += d
+            #print(mi)
+            s -= d
+            #print(s)
+            mi += s/2
+            ma = ma + s/2 + s%2
+        a = mi * ma
+        #print('mi: ',mi)
+        #print('ma: ',ma)
+        if a > (n - N) or a == (n - N):
+            g = j + 1
+        else:
+            if (n - N)%a == 0:
+                g = j + (n - N)/a
+            else: 
+                g = j + (n - N)/a + 1
+        #print('g: ', g)
+        mg = min(g,mg)
+        N += a
+        j += 1
+    return mg
