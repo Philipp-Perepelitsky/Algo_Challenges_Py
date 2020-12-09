@@ -1,0 +1,245 @@
+## Challenge: https://www.hackerrank.com/challenges/ctci-making-anagrams/leaderboard?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=strings
+
+## Solution:
+
+# Complete the makeAnagram function below.
+
+def compute_string_frequencies(a):
+    f = 26*[0]
+    a = list(a)
+    i = 0
+    while i < len(a):
+        c = a[i]
+        o = ord(c) - 97
+        f[o] += 1
+        i += 1
+    return f
+
+def makeAnagram(a, b):
+    fa = compute_string_frequencies(a)
+    fb = compute_string_frequencies(b)
+    d = 0
+    i = 0
+    while i < 26:
+        d += abs(fa[i]-fb[i])
+        i += 1
+    return d
+
+
+## Challenge: https://www.hackerrank.com/challenges/alternating-characters/leaderboard?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=strings
+
+## Solution:
+
+# Complete the alternatingCharacters function below.
+def alternatingCharacters(s):
+    t = 0
+    pc = 'C'
+    l = list(s)
+    i = 0
+    while i < len(s):
+        cc = l[i]
+        if cc == pc:
+            t += 1
+        pc = cc
+        i += 1
+    return t
+
+## Challenge: https://www.hackerrank.com/challenges/sherlock-and-valid-string/leaderboard?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=strings
+
+## Solution:
+
+# Complete the isValid function below.
+def isValid(s):
+    f = 26 * [0]
+    l = list(s)
+    i = 0
+    while i < len(l):
+        c = l[i]
+        o = ord(c)-97
+        f[o] += 1
+        i += 1
+    n1 = 0
+    j = 0
+    while j < 26:
+        if f[j] == 1:
+            n1 += 1
+            c1 = j
+        j += 1
+    if n1 == 1:
+        a = 0
+        f[c1] = 0
+    else:
+        a = 1
+    j = 0
+    t = -1
+    while j < 26:
+        if f[j]>0:
+            t = f[j]
+            break
+        j += 1
+    #print(j)
+    #print(t)
+    if t == -1:
+        return 'YES'
+    x = 1
+    i = j + 1
+    while i < 26:
+        if f[i] == 0:
+            i += 1
+            continue
+        d = f[i] - t
+        if abs(d) > a:
+            x = -1
+            break
+        else:
+            if d == 1:
+                a = 0
+            if d == -1:
+                if i == j+1:
+                    t -= 1
+                    a = 0
+                else:
+                    x = -1
+                    break
+        #print(i)
+        #print('t:',t)
+        #print('d:',d)
+        #print('a:',a)
+        i += 1
+    if x == 1:
+        return 'YES'
+    else:
+        return 'NO'
+
+## Challenge: https://www.hackerrank.com/challenges/special-palindrome-again/submissions/code/183868233?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=strings
+
+## Solution:
+
+# Complete the substrCount function below.
+def substrCount(n, s):
+    cl = []
+    chl = []
+    l = list(s)
+    pc = l[0]
+    cc = 1
+    i = 1
+    while i < len(l):
+        c = l[i]
+        if c == pc:
+            cc += 1
+        else:
+            cl.append(cc)
+            chl.append(pc)
+            cc = 1
+            pc = c
+        if i == len(l)-1:
+            cl.append(cc)
+            chl.append(c)
+        i += 1
+    print(cl)
+    print(chl)
+    j = 0
+    t = 0
+    while j < len(cl):
+        m = cl[j]
+        t += int(m*(m+1)/2)
+        if j < (len(cl)-2): 
+             if cl[j+1]==1 and chl[j]==chl[j+2]:
+                t += min(cl[j],cl[j+2])
+        j += 1
+    return t
+
+
+## Challenge: https://www.hackerrank.com/challenges/common-child/leaderboard?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=strings
+
+## Solution:
+
+# Complete the commonChild function below.
+def create_pos_array(s):
+    print(s)
+    p = [[] for _ in range(26)]
+    i = 0
+    while i < len(s):
+        c = s[i]
+        o = ord(c)-97
+        p[o].append(i)
+        i += 1
+    return p
+
+def create_next_array(s):
+    p = create_pos_array(s)
+    print(p)
+    ia = 26*[0]
+    na = [[] for _ in range(len(s))]
+    j = 0
+    while j < 26:
+        if ia[j] == len(p[j]):
+            na[0].append(10000)
+        else:
+            na[0].append(p[j][ia[j]])
+        j += 1
+    i = 1
+    while i < len(s):
+        c = s[i-1]
+        o = ord(c)-97
+        ia[o] += 1
+        j = 0
+        while j < 26:
+            if ia[j] == len(p[j]):
+                na[i].append(10000)
+            else:
+                na[i].append(p[j][ia[j]])
+            j += 1
+        i += 1
+    return na
+
+
+
+def commonChild(s1, s2):
+    s1 = s1.lower()
+    s2 = s2.lower()
+    s1 = list(s1)
+    s2 = list(s2)
+    na1 = create_next_array(s1)
+    na2 = create_next_array(s2)
+    print(na1)
+    print(na2)
+    l1 = len(s1)*[[-1] for _ in range(len(s1))]
+    l2 = len(s2)*[[-1] for _ in range(len(s2))]
+    if s1[0] == s2[0]:
+        l1[0].append(0)
+        l2[0].append(0)
+    i = 1
+    while i < len(s1):
+        c1 = s1[i]
+        o1 = ord(c1)-97
+        c2 = s2[i]
+        o2 = ord(c2)-97
+        j = 1
+        while j < len(l1[i-1]):
+            b1 = l1[i-1][j-1] + 1
+            e1 = l1[i-1][j]
+            l1[i].append(min(na1[b1][o2],e1))
+            j += 1
+        j = 1
+        while j < len(l2[i-1]):
+            b2 = l2[i-1][j-1] + 1
+            e2 = l2[i-1][j]
+            l2[i].append(min(na2[b2][o1],e2))
+            j += 1
+        b1 = l1[i-1][j-1] + 1
+        b2 = l2[i-1][j-1] + 1
+        x1 = 0
+        x2 = 0
+        if na1[b1][o2] < (i+1):
+            l1[i].append(na1[b1][o2])
+            x1 = 1
+        if na2[b2][o1] < (i+1):
+            l2[i].append(na2[b2][o1])
+            x2 = 1
+        if x1==1 and x2==0:
+            l2[i].append(i)
+        if x2==1 and x1==0:
+            l1[i].append(i)
+        i += 1
+    return len(l1[i-1]) - 1
