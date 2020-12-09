@@ -1,0 +1,87 @@
+## Challenge: https://www.hackerrank.com/challenges/sock-merchant/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=warmup
+
+## Solution:
+
+# Complete the sockMerchant function below.
+def sockMerchant(n, ar):
+    sock_dict = {}
+    for sock in ar:
+        if sock in sock_dict.keys():
+            sock_dict[sock] += 1
+        else:
+            sock_dict[sock] = 1
+    sock_values = list(sock_dict.values())
+    pairs = 0
+    for value in sock_values:
+        pairs += value/2
+    return pairs
+
+## Challenge: https://www.hackerrank.com/challenges/counting-valleys/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=warmup
+
+## Solution:
+
+# Complete the countingValleys function below.
+def countingValleys(n, s):
+    s = list(s)
+    v = 0
+    l = 0
+    i = 0
+    k = 0
+    while i < n:
+        if s[i] == "U":
+            c = 1
+        if s[i] == "D":
+            c = -1
+        l = l + c
+        if l == 0:
+            if k == 1:
+                v += 1
+                k = 0
+        if l == -1:
+            k = 1
+        i += 1
+    return v
+
+## Challenge: https://www.hackerrank.com/challenges/jumping-on-the-clouds/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=warmup
+
+## Solution:
+
+# Complete the jumpingOnClouds function below.
+def jumpingOnClouds(c):
+    p = 0
+    n = 0
+    l = len(c)
+    while p < (l - 1):
+        if p < l - 2:
+            j = c[p+2]
+            if j == 0:
+                p += 2
+            else:
+                p += 1
+        else:
+            p += 1
+        n += 1
+    return n
+
+## Challenge: https://www.hackerrank.com/challenges/repeated-string/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=warmup
+
+## Solution:
+
+# Complete the repeatedString function below.
+def repeatedString(s, n):
+    l = list(s)
+    m = len(l)
+    r = n%m
+    t = 0
+    p = 0
+    i = 0
+    while i < m:
+        c = l[i]
+        print(c)
+        if c == "a":
+            t += 1
+            if i < r:
+                p += 1
+        i += 1
+    return t*int(n/m) + p
+
