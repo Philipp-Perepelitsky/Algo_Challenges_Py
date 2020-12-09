@@ -1,0 +1,161 @@
+## Challenge: https://www.hackerrank.com/challenges/ctci-bubble-sort/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=sorting
+
+## Solution:
+
+# Complete the countSwaps function below.
+def countSwaps(a):
+    s = 0
+    x = 0
+    while x == 0:
+        cs = 0
+        j = 0
+        while j < len(a)-1:
+            c = a[j]
+            d = a[j+1]
+            if c > d:
+                a[j] = d
+                a[j+1] = c
+                cs += 1
+            j += 1
+        if cs == 0:
+            x = 1
+        s += cs
+    print("Array is sorted in " + str(s)+" swaps.")
+    print("First Element: "+str(a[0]))
+    print("Last Element: "+str(a[-1]))
+
+
+## Challenge: https://www.hackerrank.com/challenges/mark-and-toys/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=sorting
+
+## Solution:
+
+# Complete the maximumToys function below.
+def maximumToys(prices, k):
+    p = prices
+    p.sort()
+    m = 0
+    s = 0
+    i = 0
+    while i < len(p):
+        s += p[i]
+        if s > k:
+            break
+        else:
+            m += 1
+        i += 1
+    return m
+
+## Challenge: https://www.hackerrank.com/challenges/ctci-comparator-sorting/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=sorting
+
+## Solution:
+
+class Player:
+    def __init__(self, name, score):
+        self.name = name
+        self.score = score
+        
+    def __repr__(self):
+        return repr(self.name)
+        
+    def comparator(a, b):
+        a0 = a.name
+        a1 = a.score
+        b0 = b.name
+        b1 = b.score
+        if a1 > b1:
+            x = -1
+        if b1 > a1:
+            x = 1
+        if a1 == b1:
+            if a0 < b0:
+                x = - 1
+            if b0 < a0:
+                x = 1
+            if a0 == b0:
+                x = 0
+        return x
+
+
+## Challenge: https://www.hackerrank.com/challenges/fraudulent-activity-notifications/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=sorting
+
+## Solution:
+
+# Complete the activityNotifications function below.
+def activityNotifications(expenditure, d):
+    mi = int(d/2)
+    e = expenditure
+    dc = e[:d]
+    dc.sort()
+    t = 0
+    i = 0
+    while i < (len(e) - d):
+        if d%2 == 0:
+            m = (dc[mi-1] + dc[mi])/2.0
+        else: 
+            m = dc[mi]
+        ni = d + i
+        nn = e[ni]
+        if ((nn > 2* m) or (nn == 2*m)):
+            t += 1
+        j = bisect.bisect(dc,e[i])
+        dc.pop(j-1)
+        bisect.insort(dc,nn)
+        i += 1
+    return t
+
+## Challenge: https://www.hackerrank.com/challenges/ctci-merge-sort/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=sorting
+
+## Solution:
+
+# Complete the countInversions function below.
+def count_inv(l1,l2):
+    t = 0
+    i = 0
+    j = 0
+    l = []
+    while (i < len(l1)) or (j<len(l2)):
+        if i == len(l1):
+            l.append(l2[j])
+            j += 1
+            continue
+        if j == len(l2):
+            l.append(l1[i])
+            i += 1
+            continue
+        n1 = l1[i]
+        n2 = l2[j]
+        if n2<n1:
+            t += (len(l1) - i)
+            l.append(l2[j])
+            j += 1
+        else:
+            l.append(l1[i])
+            i += 1
+    return t,l
+
+def count_inv_list(l):
+    nl = []
+    s = 0
+    m = len(l)
+    if m%2 == 1:
+        l.append([])
+    i = 0
+    while i < len(l)-1:
+        t,cl = count_inv(l[i],l[i+1])
+        nl.append(cl)
+        s += t
+        i += 2
+    return s,nl
+
+
+def countInversions(arr):
+    l = []
+    s = 0
+    i = 0
+    while i < len(arr):
+        l.append([arr[i]])
+        i+=1
+    while len(l)>1:
+        t,l = count_inv_list(l)
+        s += t
+    return s
