@@ -1,0 +1,151 @@
+## Challenge: https://www.hackerrank.com/challenges/balanced-brackets/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=stacks-queues
+
+## Solution: 
+
+# Complete the isBalanced function below.
+def isBalanced(s):
+    l = list(s)
+    lb = []
+    d = {'[':']', '{':'}', '(':')'}
+    #print(d)
+    i = 0
+    while i < len(l):
+        #print(lb)
+        b = l[i]
+        #print(b)
+        if b == '[' or b == '{' or b == '(':
+            lb.append(b)
+        else:
+            if len(lb) == 0:
+                return 'NO'
+            if b != d[lb[-1]]:
+                return 'NO'    
+            lb.pop(-1)
+        i += 1
+    if len(lb) == 0:
+        return 'YES'
+    else:
+        return 'NO'
+
+## Challenge: https://www.hackerrank.com/challenges/largest-rectangle/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=stacks-queues
+
+## Solution: 
+
+# Complete the largestRectangle function below.
+def largestRectangle(h):
+    v = []
+    m = 0
+    n = h[0]
+    c = 1
+    i = 1
+    while i < len(h):
+        t = h[i]
+        if t == n:
+            c += 1
+            i += 1
+        if t > n:
+            v.append((n,c))
+            n = t
+            c = 1
+            i += 1
+        if t < n:
+            a = c*n
+            if a > m:
+                m = a
+            if len(v) == 0:
+                n = t
+                c = c + 1
+                i += 1
+                continue
+            p = v[-1][0]
+            pc = v[-1][1]
+            if p > t or p==t:
+                n = p
+                c = pc + c
+                v.pop(-1)
+            else:
+                n = t
+                c = c + 1
+                i += 1
+    v.append((n,c))
+    i = len(v) - 1
+    c = 0
+    while i > -1:
+        t = v[i][0]
+        c += v[i][1]
+        a = t*c
+        if a > m:
+            m = a
+        i -= 1
+    return m
+
+## Challenge: https://www.hackerrank.com/challenges/min-max-riddle/problem?h_l=interview&playlist_slugs%5B%5D%5B%5D=interview-preparation-kit&playlist_slugs%5B%5D%5B%5D=stacks-queues
+
+## Solution: 
+
+# Complete the riddle function below.
+def riddle(arr):
+    a = arr
+    b = [[a[0],0]]
+    rl = len(a)*[0]
+    i = 1
+    while i < len(a):
+        z = a[i]
+        j = len(b) - 1
+        while j > -1:
+            c = b[j][0]
+            if z > c:
+                break
+            if z < c:
+                rl[b[j][1]] = i - b[j][1]
+                b.pop(-1)
+            j -= 1
+        b.append([z,i])
+        i += 1
+    j = 0
+    while j < len(b):
+        rl[b[j][1]] = len(a) - b[j][1]
+        j += 1
+    
+    f = [[a[-1],len(a)-1]]
+    ll = len(a)*[0]
+    i = len(a) - 2
+    while i > -1:
+        z = a[i]
+        j = len(f) - 1
+        while j > -1:
+            c = f[j][0]
+            if z > c:
+                break
+            if z < c:
+                ll[f[j][1]] = f[j][1] - i
+                f.pop(-1)
+            j -= 1
+        f.append([z,i])
+        i -= 1
+    j = 0
+    while j < len(f):
+        ll[f[j][1]] = f[j][1] + 1
+        j += 1
+    
+    ma = n*[-1]
+    i = 0
+    while i < len(a):
+        z = a[i]
+        l = ll[i] + rl[i] - 1
+        m = max(ma[l-1],z)
+        ma[l-1] = m
+        i += 1
+    #print(ma)
+    w = [ma[-1]]
+    i = n - 2
+    while i > -1:
+        m = max(ma[i],w[-1])
+        w.append(m)
+        i -= 1
+    f = []
+    i = 0
+    while i < n:
+        f.append(w[n-1-i])
+        i += 1
+    return f
